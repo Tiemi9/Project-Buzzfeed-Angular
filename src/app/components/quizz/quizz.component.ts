@@ -43,10 +43,10 @@ export class QuizzComponent implements OnInit {
   //vamos capturar qual a escolha do usuário
   playerChoice(value:string) {
     this.answers.push(value)
-    console.log(this.answers)
+    this.nextStep()
   }
   //vamos determinar o que será feito após a escolha do usuário (pergunta seguinte ou informar o resultado)
-  async nextStep(){
+  nextStep(){
     this.questionIndex += 1
 
     if(this.questionMaxIndex > this.questionIndex) {
