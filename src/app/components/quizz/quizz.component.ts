@@ -46,13 +46,32 @@ export class QuizzComponent implements OnInit {
     this.nextStep()
   }
   //vamos determinar o que será feito após a escolha do usuário (pergunta seguinte ou informar o resultado)
-  nextStep(){
+  async nextStep(){
     this.questionIndex += 1
 
     if(this.questionMaxIndex > this.questionIndex) {
       this.questionSelected = this.questions[this.questionIndex]
     }else{
+      const finalAnswer:string = await this.checkResult(this.answers)
       this.finished = true
+      this.answerSelected = quizz_questions.results[finalAnswer as keyof typeof quizz_questions.results]
+      //verificar a opção ganhadora
+      console.log(this.answers)
     }
   }
+  async checkResult(answers:string[]) {
+
+    const result = answers.reduce((previous, current, i, arr) => {
+      if(
+        arr.filter(item => item === previous).length >
+        arr.filter(item => item === current).length
+        ){
+          return previous
+      }else{
+        return current
+      }
+    })
+    return result
+  }
+
 }
